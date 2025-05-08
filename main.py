@@ -29,3 +29,7 @@ def champDies (room:int, deck:str, items:str):
 @app.put("/getDead")
 def getDead (floor:int, room:int):
     return deads[floor][room]
+
+@app.put("/getChamp")
+def getChamp (rank:int):
+    return champs[rank]
