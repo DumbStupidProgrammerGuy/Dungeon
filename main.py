@@ -37,14 +37,14 @@ class Player():
         self.floor = 1
         self.room = 1
         self.items = ""
-        self.deck = ""
+        self.deck = "attack, defend"
         self.health = 100
         self.defense = 0
 
     def takeDamage(self, amount:int):
         self.health -= amount - self.defense
         if self.health <= 0:
-            die(self.floor, self.room, self.items)
+            die(self.floor, self.room, self.deck, self.items)
 
 player = Player()
 
