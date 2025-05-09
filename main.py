@@ -13,16 +13,13 @@ def hi ():
     return "hi"
 
 @app.put("/dead")
-def dies (floor:int, room:int, items:str):
+def die (floor:int, room:int, deck:str, items:str):
+    deckList=deck.split(",")
     itemsList=items.split(",")
-    print(itemsList)
-    deads[floor][room].update(itemsList)
-
-@app.put("/champ")
-def champDies (room:int, deck:str, items:str):
-    itemsList=items.split(",")
-    print(itemsList)
-    champs.insert(room-1, [deck, itemsList])
+    if floor == 10:
+        champs.insert(room-1, [deckList, itemsList])
+    else:
+        deads[floor][room].update(itemsList)
 
 @app.put("/getDead")
 def getDead (floor:int, room:int):
@@ -39,6 +36,12 @@ class Player():
     def __init__(self):
         self.floor = 1
         self.room = 1
-        self.items = []
-        self.deck = []
+        self.items = ""
+        self.deck = ""
         self.health = 100
+        self.defense = 0
+
+    def takeDamage(self, amount:int):
+        self.health -= amount - self.defense
+        if self.health <= 0:
+            die(self.floor, self.room, self.items)
