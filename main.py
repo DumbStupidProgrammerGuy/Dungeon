@@ -45,3 +45,9 @@ class Player():
         self.health -= amount - self.defense
         if self.health <= 0:
             die(self.floor, self.room, self.items)
+
+player = Player()
+
+@app.put("/attackPlayer")
+def attackPlayer(damage:int):
+    player.takeDamage(damage)
