@@ -12,8 +12,6 @@ champs = []
 def hi ():
     return "hi"
 
-
-
 @app.put("/dead")
 def dies (floor:int, room:int, items:str):
     itemsList=items.split(",")
@@ -33,3 +31,14 @@ def getDead (floor:int, room:int):
 @app.put("/getChamp")
 def getChamp (rank:int):
     return champs[rank]
+
+
+# uvicorn main:app --host 0.0.0.0 --port 8096
+
+class Player():
+    def __init__(self):
+        self.floor = 1
+        self.room = 1
+        self.items = []
+        self.deck = []
+        self.health = 100
