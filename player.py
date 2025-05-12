@@ -3,34 +3,76 @@ import main # replace with api filename
 
 
 class Player():
-    def __init__(self):
+    def __init__(self, archetype = None):
+        self.archetype = archetype
         self.floor = 1
         self.room = 1
-        self.items = ""
-        self.deck = "attack, defend"
-        self.health = 100
+        self.items = []
+        self.deck = ["Attack", "Attack", "Attack"]
+        self.maxHealth = 100
         self.defense = 0
+        self.handSize = 3
+        self.hand = []
+        if self.archetype == "Warrior":
+            self.deck.append("Warrior's Strike")
+            self.deck.append("Warrior's Defense")
+            self.deck.append("Shield Bash")
+            self.deck.append("Sword Slash")
+            self.items.append("Warrior's Sword")
+            self.items.append("Warrior's Shield")
+            self.maxHealth = 100
+        elif self.archetype == "Slink":
+            self.deck.append("Cunning Strike")
+            self.deck.append("Desperate Dodge")
+            self.deck.append("Enhanced Relexes")
+            self.deck.append("Counterstrike")
+            self.items.append("Slink's Daggers")
+            self.items.append("Slink's Hood")
+            self.deck.append("Dodge")
+            self.deck.append("Dodge")
+            self.deck.append("Dodge")
+            self.handSize = 5
+            self.maxHealth = 80
+            self.dodges = 0
+        elif self.archetype == "Mage":
+            self.deck.append("Careful Strike")
+            self.deck.append("Precise Defense")
+            self.deck.append("Incantation")
+            self.deck.append("Divination")
+            self.items.append("Mage's Spellbook")
+            self.items.append("Mage's Staff")
+            self.maxHealth = 90
+        
+        if not self.archetype == "Slink":
+            self.deck.append("Defend")
+            self.deck.append("Defend")
+            self.deck.append("Defend")
+        self.health = self.maxHealth
 
-    def putChamp(room,deck,items):
-        main.putChamp(room,deck,items)
+    def putChamp(self):
+        main.putChamp(self.room, ", ".join(self.deck), ", ".join(self.items))
     
-    def  die(floor, room, items):
-        main.putDead(self.floor, self.room, self.items)
+    def  die(self):
+        main.putDead(self.floor, self.room, ", ".join(self.items))
 
     def takeDamage(self, amount):
         self.health -= amount - self.defense
         
         if self.health <= 0:
             if self.floor == 10:
-                self.putChamp(self.room, self.deck, self.items)
+                self.putChamp()
             elif 1 <= self.floor <= 9:
-                self.die(self.floor, self.room, self.items)
+                self.die()
+
+    def turn(self):
+        for i in range(self.handSize):
+            self.hand.append(random.choice(self.deck))
 
 
 
 if __name__ =="__main__":
 
-    player = Player()
+    player = Player("Slink")
 
     def attackPlayer(damage:int):
         player.takeDamage(damage)
