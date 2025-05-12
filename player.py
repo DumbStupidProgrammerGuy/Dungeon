@@ -1,6 +1,9 @@
 import main # replace with api filename
-
-
+import random
+actions={
+    "Attack":"self.attack()",
+    "Defend":"self.defense += 3"
+}
 
 class Player():
     def __init__(self, archetype = None):
@@ -78,4 +81,28 @@ if __name__ =="__main__":
         player.takeDamage(damage)
     attackPlayer(2)
     
+class enemy():
+    def __init__(self, type = None):
+        self.floor = 1
+        self.room = 1
+        self.items = []
+        self.deck = ["Attack", "Attack", "Attack"]
+        self.maxHealth = 100
+        self.defense = 0
+        self.handSize = 3
+        self.defendAmount = 3
+        if type == "slime":
+            self.maxHealth = random.randrange(30, 70)
+            self.deck.append("Ooze")
+            self.deck.append("Split")
+        else:
+            self.maxHealth = random.randrange(30, 70)
+            self.deck.append("Defend")
+            self.deck.append("Defend")
+            self.deck.append("Defend")
 
+    def turn(self):
+        card=random.choice(self.deck)
+        ## remove card from posible choices
+        action=actions[card]
+        exec(action) # exec or eval could work
