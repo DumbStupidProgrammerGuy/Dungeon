@@ -161,6 +161,7 @@ class Enemy():
         target = player
         exec(action) # exec or eval could work
         print(f'The {self.name} used "{card}"')
+        # hi
 
 
 if __name__ =="__main__":
