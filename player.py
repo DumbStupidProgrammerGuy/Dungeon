@@ -7,7 +7,7 @@ window.nodelay(True)
 curses.noecho()
 
 actions={
-    "Attack":"self.attack()",
+    "Attack":"target.takeDamage(3)",
     "Defend":"self.defense += 3"
 }
 
