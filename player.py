@@ -112,12 +112,12 @@ class Player():
             
             window.clear()
 
-            for i in range(self.hand):
+            for i,card in enumerate(self.hand):
                 if i == index:
                     color = "\x1b[44m"
                 else:
                     color = "\x1b[0m"
-                print(color, self.hand[i],end="")
+                print(color, card,end="")
             print("\x1b[44m", descriptions[self.hand[index]])
 
 
