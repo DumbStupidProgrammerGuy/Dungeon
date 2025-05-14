@@ -2,7 +2,10 @@ import main # replace with api filename
 import random
 import getch
 import curses
+curses.noecho()
 window = curses.initscr()
+window.nodelay(True)
+
 actions={
     "Attack":"self.attack()",
     "Defend":"self.defense += 3"
@@ -96,7 +99,7 @@ class Player():
         char=" "
         index=0
         while char!="\n":
-            char=getch()
+            char=window.getch()
             print("pressed", char)
             ## add logif fow was/awwors
             if char == "a":
