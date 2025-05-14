@@ -159,6 +159,7 @@ class enemy():
         action=actions[card]
         target = player
         exec(action) # exec or eval could work
+        print("The enemy used", card)
 
 
 if __name__ =="__main__":
@@ -168,5 +169,6 @@ if __name__ =="__main__":
 
     def attackPlayer(damage:int):
         player.takeDamage(damage)
-    player.turn()
+    enemy.turn()
+    print()
     
