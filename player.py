@@ -9,7 +9,7 @@ actions={
 }
 
 descriptions = {
-    "Attack" : "Deal 3 damage to target enemy"
+    "Attack" : "Deal 3 damage to target enemy",
     "Defend" : "Deal 3 damage to target enemy"
 }
 
