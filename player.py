@@ -14,7 +14,7 @@ actions={
 
 descriptions = {
     "Attack" : "Deal 3 damage to target enemy",
-    "Defend" : "Deal 3 damage to target enemy"
+    "Defend" : "Block 3 damage on the enemy's next turn"
 }
 
 class Player():
