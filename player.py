@@ -2,6 +2,7 @@ import main # replace with api filename
 import random
 import getch
 import curses
+import time
 window = curses.initscr()
 window.nodelay(True)
 curses.noecho()
@@ -119,6 +120,7 @@ class Player():
                     color = "\x1b[0m"
                 print(color, card,end=", ", sep="")
             print("\n", descriptions[self.hand[index]])
+            time.sleep(0.1)
 
 
 class enemy():
