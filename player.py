@@ -2,9 +2,9 @@ import main # replace with api filename
 import random
 import getch
 import curses
-curses.noecho()
 window = curses.initscr()
 window.nodelay(True)
+curses.noecho()
 
 actions={
     "Attack":"self.attack()",
