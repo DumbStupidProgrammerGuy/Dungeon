@@ -123,8 +123,8 @@ class Player():
             time.sleep(0.1)
 
 
-class enemy():
-    def __init__(self, type = None):
+class Enemy():
+    def __init__(self, name = "enemy"):
         self.floor = 1
         self.room = 1
         self.items = []
@@ -133,7 +133,8 @@ class enemy():
         self.defense = 0
         self.handSize = 3
         self.defendAmount = 3
-        if type == "slime":
+        self.name = name
+        if self.name == "slime":
             self.maxHealth = random.randrange(30, 70)
             self.deck.append("Ooze")
             self.deck.append("Split")
@@ -159,13 +160,13 @@ class enemy():
         action=actions[card]
         target = player
         exec(action) # exec or eval could work
-        print("The enemy used", card)
+        print(f'The {self.name} used "{card}"')
 
 
 if __name__ =="__main__":
 
     player = Player()
-    
+    enemy = Enemy()
 
     def attackPlayer(damage:int):
         player.takeDamage(damage)
