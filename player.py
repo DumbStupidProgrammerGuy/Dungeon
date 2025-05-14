@@ -118,7 +118,7 @@ class Player():
                 else:
                     color = "\x1b[0m"
                 print(color, card,end="")
-            print("\x1b[44m", descriptions[self.hand[index]])
+            print(descriptions[self.hand[index]])
 
 
 class enemy():
