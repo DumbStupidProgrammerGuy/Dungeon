@@ -103,9 +103,9 @@ class Player():
             char=window.getch()
             print("pressed", char)
             ## add logif fow was/awwors
-            if char == "a":
+            if char == ord("a"):
                 index -= 1
-            elif char == "d":
+            elif char == ord("d"):
                 index += 1
             
             index %= len(self.hand)
@@ -119,7 +119,7 @@ class Player():
                 else:
                     color = "\x1b[0m"
                 print(color, card,end=", ", sep="")
-            print("\n", descriptions[self.hand[index]])
+            print("\x1b[0m\n", descriptions[self.hand[index]])
             time.sleep(0.1)
 
 
