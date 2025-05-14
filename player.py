@@ -1,8 +1,16 @@
 import main # replace with api filename
 import random
+import getch
+import curses
+window = curses.initscr()
 actions={
     "Attack":"self.attack()",
     "Defend":"self.defense += 3"
+}
+
+descriptions = {
+    "Attack" : "Deal 3 damage to target enemy"
+    "Defend" : "Deal 3 damage to target enemy"
 }
 
 class Player():
@@ -15,6 +23,8 @@ class Player():
         self.maxHealth = 100
         self.defense = 0
         self.handSize = 3
+        self.damageMod = 3
+        self.defenseMod = 3
         self.hand = []
         if self.archetype == "Warrior":
             self.deck.append("Warrior's Strike")
@@ -67,20 +77,47 @@ class Player():
             elif 1 <= self.floor <= 9:
                 self.die()
 
+    def enterRoom(self, floor, room):
+        self.floor = floor
+        self.room = room
+
+
     def turn(self):
+        self.damageMod = 3
+        self.defenseMod = 3
+        if "Warrior's Sword" in self.items:
+            self.damageMod += 1
+        if "Warrior's Sheild" in self.items:
+            self.defenseMod += 1
+
         for i in range(self.handSize):
             self.hand.append(random.choice(self.deck))
+        print("Choose a card:\n",self.hand)
+        char=" "
+        index=0
+        while char!="\n":
+            char=getch()
+            print("pressed", char)
+            ## add logif fow was/awwors
+            if char == "a":
+                index -= 1
+            elif char == "d":
+                index += 1
+            
+            index %= len(self.hand)
+
+            
+            window.clear()
+
+            for i in range(self.hand):
+                if i == index:
+                    color = "\x1b[44m"
+                else:
+                    color = "\x1b[0m"
+                print(color, self.hand[i],end="")
+            print("\x1b[44m", descriptions[self.hand[index]])
 
 
-
-if __name__ =="__main__":
-
-    player = Player("Slink")
-
-    def attackPlayer(damage:int):
-        player.takeDamage(damage)
-    attackPlayer(2)
-    
 class enemy():
     def __init__(self, type = None):
         self.floor = 1
@@ -101,8 +138,30 @@ class enemy():
             self.deck.append("Defend")
             self.deck.append("Defend")
 
+    def  die(self):
+        pass
+
+    def takeDamage(self, amount):
+        self.health -= amount - self.defense
+        
+        if self.health <= 0:
+            if 1 <= self.floor <= 9:
+                self.die()
+
     def turn(self):
         card=random.choice(self.deck)
         ## remove card from posible choices
         action=actions[card]
+        target = player
         exec(action) # exec or eval could work
+
+
+if __name__ =="__main__":
+
+    player = Player()
+    
+
+    def attackPlayer(damage:int):
+        player.takeDamage(damage)
+    player.turn()
+    
