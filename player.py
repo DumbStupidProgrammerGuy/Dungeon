@@ -118,7 +118,7 @@ class Player():
                     color = "\x1b[44m"
                 else:
                     color = "\x1b[0m"
-                print(color, card,end=", ", sep="")
+                print(color, card,end="\x1b[0m, ", sep="")
             print("\x1b[0m\n", descriptions[self.hand[index]])
             time.sleep(0.1)
 
