@@ -296,9 +296,11 @@ class Player():
         while char!=10 and choosing:
             char=window.getch()
             # print("pressed", char)
+            info = f"you({self.health} hp),   "
             for enemy in enemies:
-                print(f"{enemy.name}({enemy.health} health, {enemy.defense} defense),   ")
-            print("Choose a card:\n")
+                info += f"{enemy.name}({enemy.health} hp, {enemy.defense} defense),   "
+            print(info)
+            print("\nChoose a card:\n")
             ## add logif fow was/awwors
             if char == ord("a"):
                 index -= 1
@@ -348,7 +350,7 @@ class Player():
                     else:
                         color = "\x1b[0m"
                     print(color, enemy.name,end="\x1b[0m, ", sep="")
-                info = f"{enemies[index].health} health, {enemies[index].defense} defense"
+                info = f"{enemies[index].health} hp, {enemies[index].defense} defense"
                 # if enemy.splitting:
                 #     info = info + ", splitting"
                 print("\x1b[0m\n", info)
