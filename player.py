@@ -125,7 +125,7 @@ class Player():
             if i == 0:
                 message = f"A(n) {enemy.name}"
             if r > 1:
-                if i == r-1:
+                if i == r-1 and i > 0:
                     message = message + f" and a {enemy.name} appeared!"
                 else:
                     message = message + f", a {enemy.name}"
@@ -237,8 +237,8 @@ class Player():
                         color = "\x1b[0m"
                     print(color, enemy.name,end="\x1b[0m, ", sep="")
                 info = f"{enemies[index].health} health, {enemies[index].defense} defense"
-                if enemy.splitting:
-                    info = info + ", splitting"
+                # if enemy.splitting:
+                #     info = info + ", splitting"
                 print("\x1b[0m\n", info)
                 time.sleep(0.1)
             window.clear()
