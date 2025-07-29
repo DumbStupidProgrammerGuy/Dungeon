@@ -19,7 +19,7 @@ actions={
     "Shield Bash" : "target.takeDamage(self.damageMod//2)",
     "Sword Slash":"for enemy in enemies: enemy.takeDamage(self.damageMod//2 +1)",
     "Split":'self.splitting = True',
-    "Ooze": "target.takeDamage(target.defense + self.health//5, true)"
+    "Ooze": "target.takeDamage(target.defense + self.health//5, True)"
 }
 
 cardsWithTargets=[
@@ -168,13 +168,12 @@ class Player():
             damageTaken = 0
         self.health -= damageTaken
         damageBlocked = amount - damageTaken
+        message = ""
         if ooze:
             print("The slime's ooze went through your block!")
             time.sleep(1)
         elif self.defense > 0:
-            message = f"blocked {self.defense} damage and"
-        else:
-            message = ""
+            message = f"blocked {self.defense} damage and"            
         time.sleep(1)
         print(f'You {message} took {damageTaken} damage')
         time.sleep(1)
@@ -185,6 +184,7 @@ class Player():
                 self.die()
 
     def enterRoom(self, floor, room):
+        # if floor == 1 and room == 1:
         print(f"Entering floor {floor}, room {room}...")
         time.sleep(5)
         self.floor = floor
@@ -261,7 +261,6 @@ class Player():
                 print(color, card,end="\x1b[0m, ", sep="")
             print("\x1b[0m\n", itemDescriptions[deadItems[index]])
             time.sleep(0.1)
-        window.clear()
         choosing = False
         card = self.hand[index]
         
@@ -302,7 +301,7 @@ class Player():
             info = f"you({self.health} hp),   "
             for enemy in enemies:
                 info += f"{enemy.name}({enemy.health} hp, {enemy.defense} defense),   "
-            print(info)
+            # print(info)
             print("\nChoose a card:\n")
             ## add logif fow was/awwors
             if char == ord("a"):
@@ -323,7 +322,6 @@ class Player():
             self.updateDescriptions()
             print("\x1b[0m\n", self.cardDescriptions[self.hand[index]])
             time.sleep(0.1)
-        window.clear()
         choosing = False
         card = self.hand[index]
         self.hand.remove(card)
@@ -358,7 +356,6 @@ class Player():
                 #     info = info + ", splitting"
                 print("\x1b[0m\n", info)
                 time.sleep(0.1)
-            window.clear()
             choosing = False
             target = enemies[index]
         print(f'You used "{card}"!')
