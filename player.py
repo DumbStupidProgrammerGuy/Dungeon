@@ -273,7 +273,9 @@ class Player():
         self.damageMod = 3
         self.defenseMod = 3
         self.defense = 0
-        
+        for item in self.items:
+            itemAbility = itemAbilities[item]
+            exec(itemAbility)
 
         for i in range(self.handSize):
             if self.deck == []:
