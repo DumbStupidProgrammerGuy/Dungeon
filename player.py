@@ -17,9 +17,13 @@ actions={
     "Shield Bash" : "target.takeDamage(self.damageMod//2)",
     "Sword Slash":"for enemy in enemies: enemy.takeDamage(self.damageMod//2)",
     "Split":'self.splitting = True',
-    "Ooze": "target.health -= self.health//10"
+    "Ooze": "target.takeDamage(target.defense + self.health//10)"
 }
 
+cardsWithTargets=[
+    "Attack",
+    "Warrior's Strike",
+    "Shield Bash"]
 
 
 class Player():
@@ -113,11 +117,24 @@ class Player():
         time.sleep(5)
         self.floor = floor
         self.room = room
-        for i in range(random.randrange(0, 3)):
-            enemies.append(Enemy(random.choice(enemyTypes)))
+        r = random.randrange(0, 3)
+        message = ""
+        for i in range(r):
+            enemy = Enemy(random.choice(enemyTypes))
+            enemies.append(enemy)
+            if i == 0:
+                message = f"A(n) {enemy.name}"
+            if r > 1:
+                if i == r-1:
+                    message = message + f" and a {enemy.name} appeared!"
+                else:
+                    message = message + f", a {enemy.name}"
+            else:
+                message = message + " appeared!"
+
 
         if len(enemies) > 0:
-            print(f"")
+            print(message)
             time.sleep(2)
             self.turn()
         while len(enemies) > 0 and player.health > 0:
@@ -198,31 +215,35 @@ class Player():
         char=" "
         index=0
         choosing = True
-        while char!=10 and choosing:
-            char=window.getch()
-            # print("pressed", char)
-            print("Choose a target:\n")
-            ## add logif fow was/awwors
-            if char == ord("a"):
-                index -= 1
-            elif char == ord("d"):
-                index += 1
-            index %= len(enemies)
+        if card in cardsWithTargets:
+            while char!=10 and choosing:
+                char=window.getch()
+                # print("pressed", char)
+                print("Choose a target:\n")
+                ## add logif fow was/awwors
+                if char == ord("a"):
+                    index -= 1
+                elif char == ord("d"):
+                    index += 1
+                index %= len(enemies)
 
-            
+                
+                window.clear()
+                
+                for i,enemy in enumerate(enemies):
+                    if i == index:
+                        color = "\x1b[44m"
+                    else:
+                        color = "\x1b[0m"
+                    print(color, enemy.name,end="\x1b[0m, ", sep="")
+                info = f"{enemies[index].health} health, {enemies[index].defense} defense"
+                if enemy.splitting:
+                    info = info + ", splitting"
+                print("\x1b[0m\n", info)
+                time.sleep(0.1)
             window.clear()
-            
-            for i,enemy in enumerate(enemies):
-                if i == index:
-                    color = "\x1b[44m"
-                else:
-                    color = "\x1b[0m"
-                print(color, enemy.name,end="\x1b[0m, ", sep="")
-            print("\x1b[0m\n", f"{enemies[index].health} health, {enemies[index].defense} defense")
-            time.sleep(0.1)
-        window.clear()
-        choosing = False
-        target = enemies[index]
+            choosing = False
+            target = enemies[index]
         print(f'You used "{card}"!')
         time.sleep(1)
         exec(action)
@@ -292,11 +313,15 @@ class Enemy():
             if 1 <= self.floor <= 9:
                 self.die()
         if self.splitting:
-            self.health//=2
-            enemies.append(Enemy("slime", self.health))
+            if self.health >= 4:
+                self.health//=2
+                enemies.append(Enemy("slime", self.health))
+                time.sleep(1)
+                print("The slime split in two!")
+            else:
+                time.sleep(1)
+                print("The slime is too weak to split!")
             self.splitting = False
-            time.sleep(1)
-            print("The slime split in two!")
         else:
             if self.deck == []:
                 self.deck = self.discard
