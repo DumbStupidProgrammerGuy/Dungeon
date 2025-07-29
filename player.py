@@ -15,7 +15,7 @@ actions={
     "Warrior's Strike":"target.takeDamage(self.damageMod+1)",
     "Warrior's Defense":"self.defense += self.defenseMod+1",
     "Shield Bash" : "target.takeDamage(self.damageMod//2)",
-    "Sword Slash":"for enemy in enemies: enemy.takeDamage(self.damageMod//2)",
+    "Sword Slash":"for enemy in enemies: enemy.takeDamage(self.damageMod//2 +1)",
     "Split":'self.splitting = True',
     "Ooze": "target.takeDamage(target.defense + self.health//10)"
 }
