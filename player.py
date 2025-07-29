@@ -204,7 +204,8 @@ class Player():
             print(message)
             time.sleep(2)
             self.turn()
-        # else:
+        else:
+            print("There was nothing there.")
         #     self.findDead(main.getDead (floor, room)) 
             
         while len(enemies) > 0 and player.health > 0:
