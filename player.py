@@ -3,6 +3,8 @@ import random
 import getch
 import curses
 import time
+from IPython.display import display, Image, HTML, Markdown
+
 window = curses.initscr()
 window.nodelay(True)
 curses.noecho()
@@ -296,6 +298,7 @@ class Player():
         while char!=10 and choosing:
             char=window.getch()
             # print("pressed", char)
+            # display(Image(filename='OpenGameArt_Slime_Madjestiko.png'))
             info = f"you({self.health} hp),   "
             for enemy in enemies:
                 info += f"{enemy.name}({enemy.health} hp, {enemy.defense} defense),   "
