@@ -161,6 +161,11 @@ class Player():
 
     def takeDamage(self, amount, ooze = False):
         
+        damageTaken = amount - self.defense
+        if damageTaken < 0:
+            damageTaken = 0
+        self.health -= damageTaken
+        damageBlocked = amount - damageTaken
         if ooze:
             print("The slime's ooze went through your block!")
             time.sleep(1)
@@ -168,10 +173,6 @@ class Player():
             message = f"blocked {self.defense} damage and"
         else:
             message = ""
-        damageTaken = amount - self.defense
-        if damageTaken < 0:
-            damageTaken = 0
-        self.health -= damageTaken
         time.sleep(1)
         print(f'You {message} took {damageTaken} damage')
         time.sleep(1)
@@ -399,15 +400,16 @@ class Enemy():
         enemies.remove(self)
 
     def takeDamage(self, amount):
-        self.health -= amount - self.defense
-        if self.defense > 0:
-            message = f"blocked {self.defense} damage and"
-        else:
-            message = ""
-        
         damageTaken = amount - self.defense
         if damageTaken < 0:
             damageTaken = 0
+        damageBlocked = amount - damageTaken
+        if self.defense > 0:
+            message = f"blocked {damageBlocked} damage and"
+        else:
+            message = ""
+        
+        self.health -= damageTaken
         time.sleep(1)
         print(f'The {self.name} {message} took {damageTaken} damage')
         if self.health <= 0:
