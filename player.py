@@ -17,7 +17,7 @@ actions={
     "Shield Bash" : "target.takeDamage(self.damageMod//2)",
     "Sword Slash":"for enemy in enemies: enemy.takeDamage(self.damageMod//2 +1)",
     "Split":'self.splitting = True',
-    "Ooze": "target.takeDamage(target.defense + self.health//10)"
+    "Ooze": "target.takeDamage(target.defense + self.health//5, true)"
 }
 
 cardsWithTargets=[
@@ -159,15 +159,19 @@ class Player():
         else:
             main.putChamp(self.room, ", ".join(self.deck), ", ".join(self.items))
 
-    def takeDamage(self, amount):
-        self.health -= amount - self.defense
-        if self.defense > 0:
+    def takeDamage(self, amount, ooze = False):
+        
+        if ooze:
+            print("The slime's ooze went through your block!")
+            time.sleep(1)
+        elif self.defense > 0:
             message = f"blocked {self.defense} damage and"
         else:
             message = ""
         damageTaken = amount - self.defense
         if damageTaken < 0:
             damageTaken = 0
+        self.health -= damageTaken
         time.sleep(1)
         print(f'You {message} took {damageTaken} damage')
         time.sleep(1)
