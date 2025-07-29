@@ -26,6 +26,70 @@ cardsWithTargets=[
     "Shield Bash"]
 
 
+itemAbilities = {
+    "Warrior's Sword" : "if self.damageMod < 5: self.damageMod = 5",
+    "Warrior's Shield" : "if self.defenseMod < 5: self.defenseMod = 5",
+    "Slink's Daggers" : "if self.damageMod < 4: self.damgeMod = 4",
+    "Slink's Hood" : "",
+    "Mage's Spellbook" : "",
+    "Mage's Staff" : "if self.damageMod < 2: self.damageMod = self.defenseMod = 2",
+    "Weathered Sword" : "if self.damageMod < 5: self.damageMod = 5",
+    "Weathered Sheild" : "if self.defenseMod < 5: self.defenseMod = 5",
+    "Weathered Daggers" : "if self.damageMod < 4: self.damgeMod = 4",
+    "Tattered Hood" : "",
+    "Tattered Spellbook" : "",
+    "Battered Staff" : "if self.damageMod < 2: self.damageMod = self.defenseMod = 2",
+    "Broken Sword" : "if self.damageMod < 4: self.damgeMod = 4",
+    "Broken Shield" : "",
+    "Broken Daggers" : "if self.damageMod < 3: self.damageMod = 3",
+    "Torn Hood" : "",
+    "Torn Spellbook" : "",
+    "Broken Staff" : "if self.damageMod < 2: self.damageMod = self.defenseMod = 2"
+}
+
+itemDescriptions ={
+    "Warrior's Sword" : "Increases your attack damage to 5",
+    "Warrior's Shield" : "Increases your block amount to 5",
+    "Slink's Daggers" : "Increases your attack damage to 4",
+    "Slink's Hood" : "",
+    "Mage's Spellbook" : "",
+    "Mage's Staff" : "Increases your attack damage and block amount to 2",
+    "Weathered Sword" : "Increases your attack damage to 5",
+    "Weathered Sheild" : "Increases your block amount to 5",
+    "Weathered Daggers" : "Increases your attack damage to 4",
+    "Tattered Hood" : "",
+    "Tattered Spellbook" : "",
+    "Battered Staff" : "Increases your block amount to 2",
+    "Broken Sword" : "Increases your attack damage to 4",
+    "Broken Shield" : "",
+    "Broken Daggers" : "Increases your attack damage to 3",
+    "Torn Hood" : "",
+    "Torn Spellbook" : "",
+    "Broken Staff" : "Increases your block amount to 2"
+}
+
+agedItem = {
+    "Warrior's Sword" : "Weathered Sword",
+    "Warrior's Shield" : "Weathered Sheild",
+    "Slink's Daggers" : "Weathered Daggers",
+    "Slink's Hood" : "Tattered Hood",
+    "Mage's Spellbook" : "Tattered Spellbook",
+    "Mage's Staff" : "Battered Staff",
+    "Weathered Sword" : "Broken Sword",
+    "Weathered Sheild" : "Broken Shield",
+    "Weathered Daggers" : "Broken Daggers",
+    "Tattered Hood" : "Torn Hood",
+    "Tattered Spellbook" : "Torn Spellbook",
+    "Battered Staff" : "Broken Staff",
+    "Broken Sword" : None,
+    "Broken Shield" : None,
+    "Broken Daggers" : None,
+    "Torn Hood" : None,
+    "Torn Spellbook" : None,
+    "Broken Staff" : None
+}
+
+
 class Player():
     def __init__(self, archetype = None):
         self.archetype = archetype
@@ -39,8 +103,9 @@ class Player():
         self.handSize = 3
         self.damageMod = 3
         self.defenseMod = 3
+        self.damageMod = self.defenseMod = 2
         self.hand = []
-        self.descriptions = {
+        self.cardDescriptions = {
             "Attack" : f"Deal {self.damageMod} damage to target enemy",
             "Defend" : f"Block {self.defenseMod} damage on the enemy's next turn",
             "Warrior's Strike" : f"Deal {self.damageMod+1} damage to target enemy",
@@ -118,6 +183,8 @@ class Player():
         self.floor = floor
         self.room = room
         r = random.randrange(0, 3)
+        # r = 0
+        # main.putDead(self.floor, self.room, self.archetype, ", ".join(self.deck),  ", ".join(self.items))
         message = ""
         for i in range(r):
             enemy = Enemy(random.choice(enemyTypes))
@@ -137,6 +204,9 @@ class Player():
             print(message)
             time.sleep(2)
             self.turn()
+        # else:
+        #     self.findDead(main.getDead (floor, room)) 
+            
         while len(enemies) > 0 and player.health > 0:
             for enemy in enemies:
                 enemy.turn()
@@ -150,10 +220,46 @@ class Player():
             self.enterRoom(floor + 1, 1)
         else:
             self.enterRoom(floor, room + 1)
+
+    def findDead(self, dead):
+        char=" "
+        index=0
+        choosing = True
+        deadItems = []
+        for item in dead:
+            if agedItem[item] != None:
+                deadItems.append(item)
+        # print(f"You come across th body of a fallen {dead[0]} and decide to search it...")
+        print(f"You come across a dead body and decide to search it...")
+        while char!=10 and choosing:
+            char=window.getch()
+            # print("pressed", char)
+            print("Choose an item to take:\n")
+            ## add logif fow was/awwors
+            if char == ord("a"):
+                index -= 1
+            elif char == ord("d"):
+                index += 1
+            index %= len(deadItems)
+
+            
+            window.clear()
+            
+            for i,card in enumerate(deadItems):
+                if i == index:
+                    color = "\x1b[44m"
+                else:
+                    color = "\x1b[0m"
+                print(color, card,end="\x1b[0m, ", sep="")
+            print("\x1b[0m\n", itemDescriptions[deadItems[index]])
+            time.sleep(0.1)
+        window.clear()
+        choosing = False
+        card = self.hand[index]
         
 
     def updateDescriptions(self):
-        self.descriptions = {
+        self.cardDescriptions = {
             "Attack" : f"Deal {self.damageMod} damage to target enemy",
             "Defend" : f"Block {self.defenseMod} damage on the enemy's next turn",
             "Warrior's Strike" : f"Deal {self.damageMod+1} damage to target enemy",
@@ -166,11 +272,7 @@ class Player():
         self.damageMod = 3
         self.defenseMod = 3
         self.defense = 0
-        if "Warrior's Sword" in self.items:
-            self.damageMod += 1
-        if "Warrior's Sheild" in self.items:
-            self.defenseMod += 2
-            # self.defense = 2
+        
 
         for i in range(self.handSize):
             if self.deck == []:
@@ -204,7 +306,7 @@ class Player():
                     color = "\x1b[0m"
                 print(color, card,end="\x1b[0m, ", sep="")
             self.updateDescriptions()
-            print("\x1b[0m\n", self.descriptions[self.hand[index]])
+            print("\x1b[0m\n", self.cardDescriptions[self.hand[index]])
             time.sleep(0.1)
         window.clear()
         choosing = False

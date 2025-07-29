@@ -14,7 +14,7 @@ def hi ():
     return "hi"
 
 @app.put("/putDead")
-def putDead (floor:int, room:int, items:str):
+def putDead (floor:int, room:int, archetype:str, deck:str, items:str):
     itemsList=items.split(",")
     deads[floor][room].update(itemsList)
 
