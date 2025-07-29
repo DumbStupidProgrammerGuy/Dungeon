@@ -274,8 +274,8 @@ class Player():
         }
 
     def turn(self):
-        self.damageMod = 3
-        self.defenseMod = 3
+        self.damageMod = 1
+        self.defenseMod = 1
         self.defense = 0
         for item in self.items:
             itemAbility = itemAbilities[item]
