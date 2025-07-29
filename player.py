@@ -360,7 +360,7 @@ class Player():
 
 
 class Enemy():
-    def __init__(self, name = "enemy", maxHealth = 0):
+    def __init__(self, name = "enemy", maxHealth = 0, justSplit = False):
         self.floor = 1
         self.room = 1
         self.items = []
@@ -372,6 +372,7 @@ class Enemy():
         self.damageMod = 3
         self.defenseMod = 3
         self.splitting = False
+        self.justSplit = justSplit
         self.name = name
         if self.name == "slime":
             if self.maxHealth == 0:
@@ -415,10 +416,12 @@ class Enemy():
         if self.health <= 0:
             if 1 <= self.floor <= 9:
                 self.die()
-        if self.splitting:
+        if self.justSplit:
+            self.justSplit = False
+        elif self.splitting:
             if self.health >= 4:
                 self.health//=2
-                enemies.append(Enemy("slime", self.health))
+                enemies.append(Enemy("slime", self.health, True))
                 time.sleep(1)
                 print("The slime split in two!")
             else:
