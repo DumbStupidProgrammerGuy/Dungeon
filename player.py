@@ -272,11 +272,11 @@ class Enemy():
         self.name = name
         if self.name == "slime":
             if self.maxHealth == 0:
-                self.maxHealth = random.randrange(15, 30)
+                self.maxHealth = random.randrange(15, 30  + 5*(player.floor-1))
             self.deck.append("Ooze")
             self.deck.append("Split")
         else:
-            self.maxHealth = random.randrange(10, 25)
+            self.maxHealth = random.randrange(10, 25 + 5*(player.floor-1))
             self.deck.append("Defend")
             self.deck.append("Defend")
         self.health = self.maxHealth
