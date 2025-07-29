@@ -295,6 +295,8 @@ class Player():
         while char!=10 and choosing:
             char=window.getch()
             # print("pressed", char)
+            for enemy in enemies:
+                print(f"{enemy.name}({enemy.health} health, {enemy.defense} defense),   ")
             print("Choose a card:\n")
             ## add logif fow was/awwors
             if char == ord("a"):
