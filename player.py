@@ -374,7 +374,7 @@ class Player():
                         color = "\x1b[44m"
                     else:
                         color = "\x1b[0m"
-                    print(color, enemy.sprite,end="\x1b[0m, ", sep="")
+                    print(color, enemy.sprite,end="\x1b[0m ", sep="")
                 info = f"{enemy.name}({enemies[index].health} hp, {enemies[index].defense} defense)"
                 # if enemy.splitting:
                 #     info = info + ", splitting"
