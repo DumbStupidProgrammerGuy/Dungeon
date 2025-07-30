@@ -68,9 +68,15 @@ actions={
     "Warrior's Defense":"self.defense += self.defenseMod+1",
     "Shield Bash" : "target.takeDamage(self.damageMod//2)",
     "Sword Slash":"for enemy in enemies: enemy.takeDamage(self.damageMod//2 +1)",
+    "Cunning Strike": "target.takeDamage(self.damageMod+1)",
+    "Desperate Dodge": "self.dodges += 3",
+    "Enhanced Relexes": "self.dodgeChance += 25",
+    "Counterstrike": "self.counterstriking = True",
+    "Dodge": "self.dodges += 1",
     "Split":'self.splitting = True',
     "Ooze": "target.takeDamage(target.defense + self.health//5, True)"
     }
+
 
 cardsWithTargets=[
     "Attack",
@@ -82,19 +88,19 @@ itemAbilities = {
     "Warrior's Sword" : "if self.damageMod < 5: self.damageMod = 5",
     "Warrior's Shield" : "if self.defenseMod < 5: self.defenseMod = 5",
     "Slink's Daggers" : "if self.damageMod < 4: self.damgeMod = 4",
-    "Slink's Hood" : "",
+    "Slink's Hood" : "self.handSize = random.randrange(4, 6)",
     "Mage's Spellbook" : "",
     "Mage's Staff" : "if self.damageMod < 2: self.damageMod = self.defenseMod = 2",
     "Weathered Sword" : "if self.damageMod < 5: self.damageMod = 5",
     "Weathered Sheild" : "if self.defenseMod < 5: self.defenseMod = 5",
     "Weathered Daggers" : "if self.damageMod < 4: self.damgeMod = 4",
-    "Tattered Hood" : "",
+    "Tattered Hood" : "self.handSize = random.randrange(3, 5)",
     "Tattered Spellbook" : "",
     "Battered Staff" : "if self.damageMod < 2: self.damageMod = self.defenseMod = 2",
     "Broken Sword" : "if self.damageMod < 4: self.damgeMod = 4",
     "Broken Shield" : "",
     "Broken Daggers" : "if self.damageMod < 3: self.damageMod = 3",
-    "Torn Hood" : "",
+    "Torn Hood" : "self.handSize = random.randrange(3, 4)",
     "Torn Spellbook" : "",
     "Broken Staff" : "if self.damageMod < 2: self.damageMod = self.defenseMod = 2"
 }
@@ -103,21 +109,21 @@ itemDescriptions ={
     "Warrior's Sword" : "Increases your attack damage to 5",
     "Warrior's Shield" : "Increases your block amount to 5",
     "Slink's Daggers" : "Increases your attack damage to 4",
-    "Slink's Hood" : "This item's ability hasn't been implemented yet, sorry",
-    "Mage's Spellbook" : "This item's ability hasn't been implemented yet, sorry",
+    "Slink's Hood" : "Increases your hand size to a random value between 4 and 6",
+    "Mage's Spellbook" : "This item's ability hasn't been implemented yet, sorry", # Not implemented!
     "Mage's Staff" : "Increases your attack damage and block amount to 2",
     "Weathered Sword" : "Increases your attack damage to 5",
     "Weathered Sheild" : "Increases your block amount to 5",
     "Weathered Daggers" : "Increases your attack damage to 4",
-    "Tattered Hood" : "This item's ability hasn't been implemented yet, sorry",
-    "Tattered Spellbook" : "This item's ability hasn't been implemented yet, sorry",
-    "Battered Staff" : "Increases your block amount to 2",
+    "Tattered Hood" : "Sets your hand size to a random value between 3 and 5",
+    "Tattered Spellbook" : "This item's ability hasn't been implemented yet, sorry", # Not implemented!
+    "Battered Staff" : "Increases your attack damage and block amount to 2",
     "Broken Sword" : "Increases your attack damage to 4",
-    "Broken Shield" : "This item's ability hasn't been implemented yet, sorry",
+    "Broken Shield" : "This item's ability hasn't been implemented yet, sorry", # Not implemented!
     "Broken Daggers" : "Increases your attack damage to 3",
-    "Torn Hood" : "This item's ability hasn't been implemented yet, sorry",
-    "Torn Spellbook" : "This item's ability hasn't been implemented yet, sorry",
-    "Broken Staff" : "Increases your block amount to 2"
+    "Torn Hood" : "Has a 50\u0025 of increasing your hand size to 4",
+    "Torn Spellbook" : "This item's ability hasn't been implemented yet, sorry", # Not implemented!
+    "Broken Staff" : "Increases your attack damage and block amount to 2"
 }
 
 agedItem = {
@@ -153,8 +159,11 @@ class Player():
         self.maxHealth = 100
         self.defense = 0
         self.handSize = 3
-        self.damageMod = 3
-        self.defenseMod = 3
+        self.damageMod = 1
+        self.defenseMod = 1
+        self.defaultDodge = 0
+        self.dodgeChance = 0
+        self.dodges = 0
         self.damageMod = self.defenseMod = 2
         self.hand = []
         self.cardDescriptions = {
@@ -183,9 +192,9 @@ class Player():
             self.deck.append("Dodge")
             self.deck.append("Dodge")
             self.deck.append("Dodge")
-            self.handSize = 5
+            self.defaultDodge = 25
             self.maxHealth = 80
-            self.dodges = 0
+            
         elif self.archetype == "Mage":
             self.deck.append("Careful Strike")
             self.deck.append("Precise Defense")
@@ -212,29 +221,37 @@ class Player():
             main.putChamp(self.room, ", ".join(self.deck), ", ".join(self.items))
 
     def takeDamage(self, amount, ooze = False):
-        
-        damageTaken = amount - self.defense
-        if damageTaken < 0:
-            damageTaken = 0
-        self.health -= damageTaken
-        damageBlocked = amount - damageTaken
-        message = ""
-        if ooze:
-            print("The slime's ooze went through your block!")
+        if self.dodges > 0:
+            self.dodges -= 1
+            print("You dodged the attack!")
+        elif random.randrange(1, 100) <= self.dodgeChance:
+            print("You dodged the attack!")
+        else:
+            damageTaken = amount - self.defense
+            if damageTaken < 0:
+                damageTaken = 0
+            self.health -= damageTaken
+            damageBlocked = amount - damageTaken
+            message = ""
+            if ooze:
+                print("The slime's ooze went through your block!")
+                time.sleep(1)
+            elif self.defense > 0:
+                message = f"blocked {self.defense} damage and"            
             time.sleep(1)
-        elif self.defense > 0:
-            message = f"blocked {self.defense} damage and"            
-        time.sleep(1)
-        print(f'You {message} took {damageTaken} damage')
-        time.sleep(1)
-        if self.health <= 0:
-            if self.floor == 10:
-                self.putChamp()
-            elif 1 <= self.floor <= 9:
-                self.die()
+            print(f'You {message} took {damageTaken} damage')
+            time.sleep(1)
+            if self.health <= 0:
+                if self.floor == 10:
+                    self.putChamp()
+                elif 1 <= self.floor <= 9:
+                    self.die()
+        if self.counterstriking:
+            print("Counterstiking hasn't been implemented yet, sorry. :(")
+            self.counterstriking = False
 
     def enterRoom(self, floor, room):
-        # if floor == 1 and room == 1:
+        self.dodgeChance = self.defaultDodge
         print(f"Entering floor {floor}, room {room}...")
         time.sleep(5)
         self.floor = floor
@@ -350,7 +367,6 @@ class Player():
         choosing = False
         card = self.hand[index]
         
-
     def updateDescriptions(self):
         self.cardDescriptions = {
             "Attack" : f"Deal {self.damageMod} damage to target enemy",
@@ -358,7 +374,12 @@ class Player():
             "Warrior's Strike" : f"Deal {self.damageMod+1} damage to target enemy",
             "Warrior's Defense" : f"Block {self.defenseMod+1} damage on the enemy's next turn",
             "Shield Bash" : f"Deal damage {self.damageMod//2} to target enemy and block {self.defenseMod//2 + 1} damage on the enemy's next turn",
-            "Sword Slash" : f"Deal {self.damageMod//2 +1} damage to ALL enemies"
+            "Sword Slash" : f"Deal {self.damageMod//2 +1} damage to ALL enemies",
+            "Cunning Strike": f"Deal {self.damageMod+1} damage to target enemy",
+            "Desperate Dodge": "Dodge the next three attacks",
+            "Enhanced Relexes": f"Increase the chance that you dodge an attack automatically by 25\u0025 (new change:{self.dodgeChance}), resets every room",
+            "Counterstrike": "Attack the next enemy that attacks you (even if they miss)",
+            "Dodge": "Dodge the next attack"
         }
 
     def turn(self):
@@ -377,6 +398,14 @@ class Player():
             self.hand.append(card)
             self.deck.remove(card)
         
+        self.playCard()
+        if self.archetype == "Slink":
+            self.playCard()
+        for card in self.hand:
+            self.discard.append(card)
+        self.hand = []
+
+    def playCard(self):
         char=" "
         index=0
         choosing = True
@@ -449,9 +478,6 @@ class Player():
         exec(action)
         if card == "Shield Bash":
             self.defense += self.defenseMod//2 + 1
-        for card in self.hand:
-            self.discard.append(card)
-        self.hand = []
        
 
 
@@ -553,7 +579,7 @@ class Enemy():
 
 if __name__ =="__main__":
 
-    player = Player("Warrior")
+    player = Player("Slink")
     enemies = []
     # enemies.append(Enemy())
     # enemies.append(Enemy("slime"))
