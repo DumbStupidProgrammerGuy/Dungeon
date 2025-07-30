@@ -9,7 +9,31 @@ window = curses.initscr()
 window.nodelay(True)
 curses.noecho()
 
-enemyTypes=["enemy", "slime"]
+enemyTypes=["Enemy", "slime"]
+
+
+slimeSprites = [
+    "(\u0c77 \u0D2E \u0c84)", 
+    "(\u0c77  \u0c84)", 
+    "(\u0c77 \U00010119 \u0c84)", 
+    "(\u0c77 \U00011119 \u0c84)", 
+    "(\u0c77 \U00010101 \u0c84)",
+    "(\U00010F57 \U00011119 \U00010F57)", 
+    "(\U00010F57 \U00010119 \U00010F57)", 
+    "(\U00010F57 \U00010101 \U00010F57)", 
+    "( \U00010F58 )"
+    ]
+
+enemySprites = [
+    "\U00013020",
+    "\U0001301A",
+    "\U0001301B",
+    "\U0001301C",
+    "\U0001301D",
+    "\U0001301E",
+    "\U0001301F",
+    "\U00013041"
+]
 
 actions={
     "Attack":"target.takeDamage(self.damageMod)",
@@ -350,8 +374,8 @@ class Player():
                         color = "\x1b[44m"
                     else:
                         color = "\x1b[0m"
-                    print(color, enemy.name,end="\x1b[0m, ", sep="")
-                info = f"{enemies[index].health} hp, {enemies[index].defense} defense"
+                    print(color, enemy.sprite,end="\x1b[0m, ", sep="")
+                info = f"{enemy.name}({enemies[index].health} hp, {enemies[index].defense} defense)"
                 # if enemy.splitting:
                 #     info = info + ", splitting"
                 print("\x1b[0m\n", info)
@@ -385,15 +409,18 @@ class Enemy():
         self.splitting = False
         self.justSplit = justSplit
         self.name = name
+        self.sprite = ""
         if self.name == "slime":
             if self.maxHealth == 0:
                 self.maxHealth = random.randrange(15, 30  + 5*(player.floor-1))
             self.deck.append("Ooze")
             self.deck.append("Split")
+            self.sprite = random.choice(slimeSprites)
         else:
             self.maxHealth = random.randrange(10, 25 + 5*(player.floor-1))
             self.deck.append("Defend")
             self.deck.append("Defend")
+            self.sprite = random.choice(enemySprites)
         self.health = self.maxHealth
 
     def  die(self):
