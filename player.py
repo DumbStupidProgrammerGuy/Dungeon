@@ -237,6 +237,41 @@ class Player():
             self.turn()
         else:
             print("There was nothing there.")
+            time.sleep(1)
+            if self.health < self.maxHealth:
+                healAmount = self.maxHealth//10
+                healthMissing = self.maxHealth - self.health
+                if healAmount > healthMissing:
+                    healAmount = healthMissing
+                self.health += healAmount
+                print(f"You took a moment to rest.")
+                time.sleep(1)
+                print(f"You recovered {healAmount} health.")
+                time.sleep(1)
+                if self.health == self.maxHealth:
+                    print("You are at max health.")
+                elif self.health > self.maxHealth*0.75:
+                    print("You are at more than 75\u0025 health.")
+                elif self.health == self.maxHealth*0.75:
+                    print("You are at 75\u0025 health.")
+                elif self.health < self.maxHealth*0.75:
+                    print("You are at less than 50\u0025 health.")
+                elif self.health > self.maxHealth*0.5:
+                    print("You are at more than 50\u0025 health.")
+                elif self.health == self.maxHealth*0.5:
+                    print("You are at 50\u0025 health.")
+                elif self.health < self.maxHealth*0.5:
+                    print("You are at less than 75\u0025 health.")
+                elif self.health > self.maxHealth*0.25:
+                    print("You are at more than 25\u0025 health.")
+                elif self.health == self.maxHealth*0.25:
+                    print("You are at 25\u0025 health.")
+                elif self.health < self.maxHealth*0.25:
+                    print("You are at less than 25\u0025 health.")
+                time.sleep(1)
+            else:
+                print("You are at max health.")
+                time.sleep(1)
         #     self.findDead(main.getDead (floor, room)) 
             
         while len(enemies) > 0 and player.health > 0:
