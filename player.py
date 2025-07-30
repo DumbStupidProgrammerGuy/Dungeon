@@ -399,6 +399,7 @@ class Player():
             self.deck.remove(card)
         
         self.playCard()
+        time.sleep(1)
         if self.archetype == "Slink":
             self.playCard()
         for card in self.hand:
@@ -515,7 +516,7 @@ class Enemy():
             self.deck.append("Defend")
             self.deck.append("Defend")
             self.sprite = random.choice(enemySprites)
-            self.sprite = ""
+            self.sprite = "?"
         self.health = self.maxHealth
 
     def  die(self):
