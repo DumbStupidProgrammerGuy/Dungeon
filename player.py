@@ -258,7 +258,7 @@ class Player():
         self.room = room
         r = random.randrange(0, 3)
         # r = 0
-        r = 3
+        # r = 3
         # main.putDead(self.floor, self.room, self.archetype, ", ".join(self.deck),  ", ".join(self.items))
         message = ""
         for i in range(r):
