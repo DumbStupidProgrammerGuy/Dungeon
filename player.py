@@ -331,7 +331,7 @@ class Player():
             "Warrior's Strike" : f"Deal {self.damageMod+1} damage to target enemy",
             "Warrior's Defense" : f"Block {self.defenseMod+1} damage on the enemy's next turn",
             "Shield Bash" : f"Deal damage {self.damageMod//2} to target enemy and block {self.defenseMod//2 + 1} damage on the enemy's next turn",
-            "Sword Slash" : f"Deal {self.damageMod//2} damage to ALL enemies"
+            "Sword Slash" : f"Deal {self.damageMod//2 +1} damage to ALL enemies"
         }
 
     def turn(self):
