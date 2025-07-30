@@ -12,9 +12,9 @@ window.nodelay(True)
 curses.noecho()
 
 enemyTypes=[
+    # "Dungeon Lizard",
     "Enemy", 
-    "slime",
-    "Dungeon Lizard"
+    "slime"
     ]
 
 
@@ -164,8 +164,8 @@ class Player():
         self.defaultDodge = 0
         self.dodgeChance = 0
         self.dodges = 0
-        self.damageMod = self.defenseMod = 2
         self.hand = []
+        self.counterstriking = False
         self.cardDescriptions = {
             "Attack" : f"Deal {self.damageMod} damage to target enemy",
             "Defend" : f"Block {self.defenseMod} damage on the enemy's next turn",
