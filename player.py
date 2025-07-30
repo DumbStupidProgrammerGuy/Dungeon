@@ -4,12 +4,18 @@ import getch
 import curses
 import time
 from IPython.display import display, Image, HTML, Markdown
+# import tkinter as tk
+# from tkinter import font
 
 window = curses.initscr()
 window.nodelay(True)
 curses.noecho()
 
-enemyTypes=["Enemy", "slime"]
+enemyTypes=[
+    "Enemy", 
+    "slime",
+    "Dungeon Lizard"
+    ]
 
 
 slimeSprites = [
@@ -23,6 +29,26 @@ slimeSprites = [
     "(\U00010F57 \U00010101 \U00010F57)", 
     "( \U00010F58 )"
     ]
+
+slimeColors  = [
+    "\033[32m", # Green
+    "\033[34m", # Blue
+    "\033[35m" # Purple
+]
+
+lizardColors  = [
+    "\033[32m", # Green
+    "\033[32m", # Green
+    "\033[32m", # Green
+    "\033[32m", # Green
+    "\033[32m", # Green
+    "\033[33m", # Orange
+    "\033[33m", # Orange
+    "\033[33m", # Orange
+    "\033[34m", # Blue
+    "\033[34m", # Blue
+    "\033[35m" # Purple
+]
 
 enemySprites = [
     "\U00013020",
@@ -44,7 +70,7 @@ actions={
     "Sword Slash":"for enemy in enemies: enemy.takeDamage(self.damageMod//2 +1)",
     "Split":'self.splitting = True',
     "Ooze": "target.takeDamage(target.defense + self.health//5, True)"
-}
+    }
 
 cardsWithTargets=[
     "Attack",
@@ -215,6 +241,7 @@ class Player():
         self.room = room
         r = random.randrange(0, 3)
         # r = 0
+        r = 3
         # main.putDead(self.floor, self.room, self.archetype, ", ".join(self.deck),  ", ".join(self.items))
         message = ""
         for i in range(r):
@@ -409,7 +436,7 @@ class Player():
                         color = "\x1b[44m"
                     else:
                         color = "\x1b[0m"
-                    print(color, enemy.sprite,end="\x1b[0m ", sep="")
+                    print(color, enemy.sprite,end="\x1b[0m   ", sep="")
                 info = f"{enemy.name}({enemies[index].health} hp, {enemies[index].defense} defense)"
                 # if enemy.splitting:
                 #     info = info + ", splitting"
@@ -450,12 +477,19 @@ class Enemy():
                 self.maxHealth = random.randrange(15, 30  + 5*(player.floor-1))
             self.deck.append("Ooze")
             self.deck.append("Split")
-            self.sprite = random.choice(slimeSprites)
+            color = random.choice(slimeColors)
+            self.sprite = color + random.choice(slimeSprites) + "\033[0m"
+        elif self.name == "Dungeon Lizard":
+            self.maxHealth = random.randrange(3, 10  + 1*(player.floor-1))
+            color = random.choice(lizardColors)
+            self.sprite = color + "\U0001318C    " + "\033[0m"
+            self.damageMod = random.randrange(1, 3)
         else:
             self.maxHealth = random.randrange(10, 25 + 5*(player.floor-1))
             self.deck.append("Defend")
             self.deck.append("Defend")
             self.sprite = random.choice(enemySprites)
+            self.sprite = ""
         self.health = self.maxHealth
 
     def  die(self):
