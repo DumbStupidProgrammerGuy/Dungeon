@@ -151,24 +151,24 @@ itemAbilities = {
 }
 
 itemDescriptions ={
-    "Warrior's Sword" : "Increases your attack damage to 5",
-    "Warrior's Shield" : "Increases your block amount to 5",
-    "Slink's Daggers" : "Increases your attack damage to 4",
-    "Slink's Hood" : "Increases your hand size to a random value between 4 and 6",
+    "Warrior's Sword" : "Increases attack damage to 5",
+    "Warrior's Shield" : "Increases block amount to 5",
+    "Slink's Daggers" : "Increases attack damage to 4",
+    "Slink's Hood" : "Increases hand size to a random value between 4 and 6",
     "Mage's Spellbook" : "This item's ability hasn't been implemented yet, sorry", # Not implemented!
-    "Mage's Staff" : "Increases your attack damage and block amount to 2",
+    "Mage's Staff" : "Increases attack damage and block amount to 2",
     "Weathered Sword" : "Increases your attack damage to 5",
-    "Weathered Sheild" : "Increases your block amount to 5",
-    "Weathered Daggers" : "Increases your attack damage to 4",
-    "Tattered Hood" : "Sets your hand size to a random value between 3 and 5",
+    "Weathered Sheild" : "Increases block amount to 5",
+    "Weathered Daggers" : "Increases attack damage to 4",
+    "Tattered Hood" : "Sets hand size to a random value between 3 and 5",
     "Tattered Spellbook" : "This item's ability hasn't been implemented yet, sorry", # Not implemented!
-    "Battered Staff" : "Increases your attack damage and block amount to 2",
-    "Broken Sword" : "Increases your attack damage to 4",
+    "Battered Staff" : "Increases attack damage and block amount to 2",
+    "Broken Sword" : "Increases attack damage to 4",
     "Broken Shield" : "This item's ability hasn't been implemented yet, sorry", # Not implemented!
-    "Broken Daggers" : "Increases your attack damage to 3",
-    "Torn Hood" : "Has a 50\u0025 of increasing your hand size to 4",
+    "Broken Daggers" : "Increases attack damage to 3",
+    "Torn Hood" : "Has a 50\u0025 of increasing hand size to 4",
     "Torn Spellbook" : "This item's ability hasn't been implemented yet, sorry", # Not implemented!
-    "Broken Staff" : "Increases your attack damage and block amount to 2"
+    "Broken Staff" : "Increases attack damage and block amount to 2"
 }
 
 agedItem = {
