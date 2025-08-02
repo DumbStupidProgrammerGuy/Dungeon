@@ -583,7 +583,6 @@ class Enemy():
                 print(f"You got the {self.name}'s {aged}! ({itemDescriptions[aged]})")
                 player.items.append(aged)
                 time.sleep(1)
-        time.sleep(200000)
         enemies.remove(self)
 
     def takeDamage(self, amount):
