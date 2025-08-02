@@ -403,7 +403,7 @@ class Player():
         
         self.playCard()
         time.sleep(1)
-        if self.archetype == "Slink":
+        if self.archetype == "Slink" and len(enemies) > 0:
             self.playCard()
         for card in self.hand:
             self.discard.append(card)
