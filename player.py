@@ -222,11 +222,13 @@ class Player():
             main.putChamp(self.room, ", ".join(self.deck), ", ".join(self.items))
 
     def takeDamage(self, amount, ooze = False):
-        if self.dodges > 0:
-            self.dodges -= 1
-            print("You dodged the attack!")
-        elif random.randrange(1, 100) <= self.dodgeChance:
-            print("You dodged the attack!")
+        if self.dodges > 0 or random.randrange(1, 100) <= self.dodgeChance:
+            if self.dodges > 0:
+                self.dodges -= 1
+            if ooze:
+                print("The slime's ooze can't be dodged!")
+            else:
+                print("You dodged the attack!")
         else:
             damageTaken = amount - self.defense
             if damageTaken < 0:
