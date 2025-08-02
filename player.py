@@ -13,8 +13,8 @@ curses.noecho()
 
 enemyTypes=[
     # "Dungeon Lizard",
-    "Enemy", 
-    "slime"
+    "Enemy"
+    # "slime"
     ]
 
 
@@ -304,6 +304,7 @@ class Player():
         self.floor = floor
         self.room = room
         r = random.randrange(0, 3)
+        r = 1
         # r = 0
         # r = 3
         # main.putDead(self.floor, self.room, self.archetype, ", ".join(self.deck),  ", ".join(self.items))
@@ -576,6 +577,13 @@ class Enemy():
     def  die(self):
         time.sleep(1)
         print(f'The {self.name} was defeated!')
+        for item in self.items:
+            aged = agedItem[item]
+            if aged != None:
+                print(f"You got the {self.name}'s {aged}! ({itemDescriptions[aged]})")
+                player.items.append(aged)
+                time.sleep(1)
+        time.sleep(200000)
         enemies.remove(self)
 
     def takeDamage(self, amount):
