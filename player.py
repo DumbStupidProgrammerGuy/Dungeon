@@ -245,7 +245,7 @@ class Player():
             "Sword Slash" : f"Deal {self.damageMod//2 +1} damage to ALL enemies",
             "Cunning Strike": f"Deal {self.damageMod+1} damage to target enemy ignoring defense",
             "Desperate Dodge": "Dodge the next three attacks",
-            "Enhanced Relexes": f"Increase the chance that you dodge an attack automatically by 25\u0025 (new chance:{self.dodgeChance}), resets every room",
+            "Enhanced Relexes": f"Increase the chance that you dodge an attack automatically by 25\u0025 (new chance:{self.dodgeChance}\u0025), resets every room",
             "Counterstrike": "Attack the next enemy that attacks you (even if they miss)",
             "Dodge": "Dodge the next attack"
         }
