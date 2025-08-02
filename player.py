@@ -68,7 +68,7 @@ actions={
     "Warrior's Defense":"self.defense += self.defenseMod+1",
     "Shield Bash" : "target.takeDamage(self.damageMod//2)",
     "Sword Slash":"for enemy in enemies: enemy.takeDamage(self.damageMod//2 +1)",
-    "Cunning Strike": "target.takeDamage(self.damageMod+1)",
+    "Cunning Strike": "target.takeDamage(self.damageMod+1, True)",
     "Desperate Dodge": "self.dodges += 3",
     "Enhanced Relexes": "self.dodgeChance += 25",
     "Counterstrike": "self.counterstriking = True",
@@ -423,7 +423,7 @@ class Player():
             "Warrior's Defense" : f"Block {self.defenseMod+1} damage on the enemy's next turn",
             "Shield Bash" : f"Deal damage {self.damageMod//2} to target enemy and block {self.defenseMod//2 + 1} damage on the enemy's next turn",
             "Sword Slash" : f"Deal {self.damageMod//2 +1} damage to ALL enemies",
-            "Cunning Strike": f"Deal {self.damageMod+1} damage to target enemy",
+            "Cunning Strike": f"Deal {self.damageMod+1} damage to target enemy ignoring defense",
             "Desperate Dodge": "Dodge the next three attacks",
             "Enhanced Relexes": f"Increase the chance that you dodge an attack automatically by 25\u0025 (new chance:{self.dodgeChance}), resets every room",
             "Counterstrike": "Attack the next enemy that attacks you (even if they miss)",
@@ -585,15 +585,17 @@ class Enemy():
                 time.sleep(1)
         enemies.remove(self)
 
-    def takeDamage(self, amount):
-        damageTaken = amount - self.defense
-        if damageTaken < 0:
-            damageTaken = 0
-        damageBlocked = amount - damageTaken
-        if self.defense > 0:
-            message = f"blocked {damageBlocked} damage and"
-        else:
-            message = ""
+    def takeDamage(self, amount, cunning = False):
+        damageTaken = amount 
+        if not cunning:
+            damageTaken -= self.defense
+            if damageTaken < 0:
+                damageTaken = 0
+            damageBlocked = amount - damageTaken
+            if self.defense > 0:
+                message = f"blocked {damageBlocked} damage and"
+            else:
+                message = ""
         
         self.health -= damageTaken
         time.sleep(1)
