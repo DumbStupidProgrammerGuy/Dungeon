@@ -13,10 +13,9 @@ curses.noecho()
 
 enemyTypes=[
     # "Dungeon Lizard",
-    "Enemy"
-    # "slime"
+    "Enemy",
+    "slime"
     ]
-
 
 slimeSprites = [
     "(\u0c77 \u0D2E \u0c84)", 
@@ -529,8 +528,6 @@ class Player():
         exec(action)
         if card == "Shield Bash":
             self.defense += self.defenseMod//2 + 1
-       
-
 
 
 class Enemy():
@@ -648,12 +645,11 @@ if __name__ =="__main__":
 
     player = Player("Slink")
     enemies = []
-    # enemies.append(Enemy())
-    # enemies.append(Enemy("slime"))
-
+   
     def attackPlayer(damage:int):
         player.takeDamage(damage)
     player.enterRoom(1, 1)
+
     
     
     
