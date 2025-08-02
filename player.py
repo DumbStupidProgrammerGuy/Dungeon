@@ -81,13 +81,14 @@ actions={
 cardsWithTargets=[
     "Attack",
     "Warrior's Strike",
-    "Shield Bash"]
+    "Shield Bash",
+    "Cunning Strike"]
 
 
 itemAbilities = {
     "Warrior's Sword" : "if self.damageMod < 5: self.damageMod = 5",
     "Warrior's Shield" : "if self.defenseMod < 5: self.defenseMod = 5",
-    "Slink's Daggers" : "if self.damageMod < 4: self.damgeMod = 4",
+    "Slink's Daggers" : "if self.damageMod < 4: self.damageMod = 4",
     "Slink's Hood" : "self.handSize = random.randrange(4, 6)",
     "Mage's Spellbook" : "",
     "Mage's Staff" : "if self.damageMod < 2: self.damageMod = self.defenseMod = 2",
@@ -389,6 +390,8 @@ class Player():
         for item in self.items:
             itemAbility = itemAbilities[item]
             exec(itemAbility)
+        
+
 
         for i in range(self.handSize):
             if self.deck == []:
@@ -498,7 +501,7 @@ class Enemy():
         self.splitting = False
         self.justSplit = justSplit
         self.name = name
-        self.sprite = ""
+        self.sprite = "\ufffd"
         if self.name == "slime":
             if self.maxHealth == 0:
                 self.maxHealth = random.randrange(15, 30  + 5*(player.floor-1))
@@ -515,8 +518,7 @@ class Enemy():
             self.maxHealth = random.randrange(10, 25 + 5*(player.floor-1))
             self.deck.append("Defend")
             self.deck.append("Defend")
-            self.sprite = random.choice(enemySprites)
-            self.sprite = "?"
+            # self.sprite = random.choice(enemySprites)
         self.health = self.maxHealth
 
     def  die(self):
