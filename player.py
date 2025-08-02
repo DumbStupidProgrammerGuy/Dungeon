@@ -84,6 +84,50 @@ cardsWithTargets=[
     "Shield Bash",
     "Cunning Strike"]
 
+items = [
+    "Warrior's Sword",
+    "Warrior's Shield",
+    "Slink's Daggers",
+    "Slink's Hood",
+    "Mage's Spellbook",
+    "Mage's Staff",
+    "Weathered Sword",
+    "Weathered Sheild",
+    "Weathered Daggers",
+    "Tattered Hood",
+    "Tattered Spellbook",
+    "Battered Staff",
+    "Broken Sword",
+    "Broken Shield",
+    "Broken Daggers",
+    "Torn Hood",
+    "Torn Spellbook",
+    "Broken Staff"
+]
+
+weapons = [
+    "Warrior's Sword",
+    "Slink's Daggers",
+    "Mage's Staff",
+    "Weathered Sword",
+    "Weathered Daggers",
+    "Battered Staff",
+    "Broken Sword",
+    "Broken Daggers",
+    "Broken Staff"
+]
+
+nonWeaponItems = [
+    "Warrior's Shield",
+    "Slink's Hood",
+    "Mage's Spellbook",
+    "Weathered Sheild",
+    "Tattered Hood",
+    "Tattered Spellbook",
+    "Broken Shield",
+    "Torn Hood",
+    "Torn Spellbook"
+]
 
 itemAbilities = {
     "Warrior's Sword" : "if self.damageMod < 5: self.damageMod = 5",
@@ -493,6 +537,7 @@ class Enemy():
         self.floor = 1
         self.room = 1
         self.items = []
+        self.items = []
         self.deck = ["Attack", "Attack", "Attack"]
         self.discard = []
         self.maxHealth = maxHealth
@@ -521,6 +566,11 @@ class Enemy():
             self.deck.append("Defend")
             self.deck.append("Defend")
             # self.sprite = random.choice(enemySprites)
+            self.items.append(random.choice(weapons))
+            for i in range(random.randrange(0, 2)):
+                self.items.append(random.choice(nonWeaponItems))
+            
+
         self.health = self.maxHealth
 
     def  die(self):
@@ -552,6 +602,9 @@ class Enemy():
 
     def turn(self):
         self.defense = 0
+        for item in self.items:
+            itemAbility = itemAbilities[item]
+            exec(itemAbility)
         if self.health <= 0:
             if 1 <= self.floor <= 9:
                 self.die()
