@@ -231,7 +231,7 @@ class Player():
             self.deck.append("Cunning Strike")
             self.deck.append("Desperate Dodge")
             self.deck.append("Enhanced Relexes")
-            self.deck.append("Counterstrike")
+            # self.deck.append("Counterstrike")
             self.items.append("Slink's Daggers")
             self.items.append("Slink's Hood")
             self.deck.append("Dodge")
