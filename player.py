@@ -79,7 +79,7 @@ class Player():
         main.putChamp(self.room, ", ".join(self.deck), ", ".join(self.items))
     
     def  die(self):
-        print("You died!")
+        print("You died!\r")
         if self.floor < 10:
             main.putDead(self.floor, self.room, ", ".join(self.items))
         else:
@@ -90,9 +90,9 @@ class Player():
             if self.dodges > 0:
                 self.dodges -= 1
             if ooze:
-                print("The slime's ooze can't be dodged!")
+                print("The slime's ooze can't be dodged!\r")
             else:
-                print("You dodged the attack!")
+                print("You dodged the attack!\r")
         else:
             damageTaken = amount - self.defense
             if damageTaken < 0:
@@ -101,12 +101,12 @@ class Player():
             damageBlocked = amount - damageTaken
             message = ""
             if ooze:
-                print("The slime's ooze went through your block!")
+                print("The slime's ooze went through your block!\r")
                 time.sleep(1)
             elif self.defense > 0:
                 message = f"blocked {self.defense} damage and"            
             time.sleep(1)
-            print(f'You {message} took {damageTaken} damage')
+            print(f'You {message} took {damageTaken} damage\r')
             time.sleep(1)
             if self.health <= 0:
                 if self.floor == 10:
@@ -119,7 +119,7 @@ class Player():
 
     def enterRoom(self, floor, room):
         self.dodgeChance = self.defaultDodge
-        print(f"Entering floor {floor}, room {room}...")
+        print(f"Entering floor {floor}, room {room}...\r")
         time.sleep(5)
         self.floor = floor
         self.room = room
@@ -140,7 +140,7 @@ class Player():
                 else:
                     message = message + f", a {enemy.name}"
             else:
-                message = message + " appeared!"
+                message = message + " appeared!\r"
 
 
         if len(enemies) > 0:
@@ -148,7 +148,7 @@ class Player():
             time.sleep(2)
             self.turn()
         else:
-            print("There was nothing there.")
+            print("There was nothing there.\r")
             time.sleep(1)
             if self.health < self.maxHealth:
                 healAmount = self.maxHealth//10
@@ -156,33 +156,33 @@ class Player():
                 if healAmount > healthMissing:
                     healAmount = healthMissing
                 self.health += healAmount
-                print(f"You took a moment to rest.")
+                print(f"You took a moment to rest.\r")
                 time.sleep(1)
-                print(f"You recovered {healAmount} health.")
+                print(f"You recovered {healAmount} health.\r")
                 time.sleep(1)
                 if self.health == self.maxHealth:
-                    print("You are at max health.")
+                    print("You are at max health.\r")
                 elif self.health > self.maxHealth*0.75:
-                    print("You are at more than 75\u0025 health.")
+                    print("You are at more than 75\u0025 health.\r")
                 elif self.health == self.maxHealth*0.75:
-                    print("You are at 75\u0025 health.")
+                    print("You are at 75\u0025 health.\r")
                 elif self.health < self.maxHealth*0.75:
-                    print("You are at less than 50\u0025 health.")
+                    print("You are at less than 50\u0025 health.\r")
                 elif self.health > self.maxHealth*0.5:
-                    print("You are at more than 50\u0025 health.")
+                    print("You are at more than 50\u0025 health.\r")
                 elif self.health == self.maxHealth*0.5:
-                    print("You are at 50\u0025 health.")
+                    print("You are at 50\u0025 health.\r")
                 elif self.health < self.maxHealth*0.5:
-                    print("You are at less than 75\u0025 health.")
+                    print("You are at less than 75\u0025 health.\r")
                 elif self.health > self.maxHealth*0.25:
-                    print("You are at more than 25\u0025 health.")
+                    print("You are at more than 25\u0025 health.\r")
                 elif self.health == self.maxHealth*0.25:
-                    print("You are at 25\u0025 health.")
+                    print("You are at 25\u0025 health.\r")
                 elif self.health < self.maxHealth*0.25:
-                    print("You are at less than 25\u0025 health.")
+                    print("You are at less than 25\u0025 health.\r")
                 time.sleep(1)
             else:
-                print("You are at max health.")
+                print("You are at max health.\r")
                 time.sleep(1)
         #     self.findDead(main.getDead (floor, room)) 
             
@@ -209,7 +209,7 @@ class Player():
             if library.agedItem[item] != None:
                 deadItems.append(item)
         # print(f"You come across th body of a fallen {dead[0]} and decide to search it...")
-        print(f"You come across a dead body and decide to search it...")
+        print(f"You come across a dead body and decide to search it...\r")
         while char!=10 and choosing:
             char=window.getch()
             # print("pressed", char)
@@ -230,7 +230,7 @@ class Player():
                 else:
                     color = "\x1b[0m"
                 print(color, card,end="\x1b[0m, ", sep="")
-            print("\x1b[0m\n", library.itemDescriptions[deadItems[index]])
+            print("\x1b[0m\n", library.itemDescriptions[deadItems[index]]+"\r")
             time.sleep(0.1)
         choosing = False
         card = self.hand[index]
@@ -287,7 +287,7 @@ class Player():
             info = f"you({self.health} hp),   "
             for enemy in enemies:
                 info += f"{enemy.name}({enemy.health} hp, {enemy.defense} defense),   "
-            # print(info)
+            print(info+"\r")
             print("\nChoose a card:\n")
             ## add logif fow was/awwors
             if char == ord("a"):
@@ -306,7 +306,7 @@ class Player():
                     color = "\x1b[0m"
                 print(color, card,end="\x1b[0m, ", sep="")
             self.updateDescriptions()
-            print("\x1b[0m\n", self.cardDescriptions[self.hand[index]])
+            print("\x1b[0m\n\r", self.cardDescriptions[self.hand[index]]+"\r")
             time.sleep(0.1)
         choosing = False
         card = self.hand[index]
@@ -340,11 +340,11 @@ class Player():
                 info = f"{enemy.name}({enemies[index].health} hp, {enemies[index].defense} defense)"
                 # if enemy.splitting:
                 #     info = info + ", splitting"
-                print("\x1b[0m\n", info)
+                print("\x1b[0m\n", info + "\r")
                 time.sleep(0.1)
             choosing = False
             target = enemies[index]
-        print(f'You used "{card}"!')
+        print(f'You used "{card}"!\r')
         time.sleep(1)
         exec(action)
         if card == "Shield Bash":
@@ -370,11 +370,16 @@ class Enemy():
         self.sprite = "\ufffd"
         if self.name == "slime":
             if self.maxHealth == 0:
-                self.maxHealth = random.randrange(15, 30  + 5*(player.floor-1))
+                self.maxHealth = random.randrange(1, 5) + 5*(player.floor)
             self.deck.append("Ooze")
-            self.deck.append("Split")
+            if self.maxHealth >= 4:
+                self.deck.append("Split")
             color = random.choice(library.slimeColors)
-            self.sprite = color + random.choice(library.slimeSprites) + "\033[0m"
+            if self.maxHealth <= 5:
+                self.sprite = color + random.choice(library.slimeSizes[self.maxHealth]) + "\033[0m"
+            else:
+                self.sprite = color + random.choice(library.slimeSizes[6]) + "\033[0m"
+
         elif self.name == "Dungeon Lizard":
             self.maxHealth = random.randrange(3, 10  + 1*(player.floor-1))
             color = random.choice(library.lizardColors)
@@ -394,11 +399,11 @@ class Enemy():
 
     def  die(self):
         time.sleep(1)
-        print(f'The {self.name} was defeated!')
+        print(f'The {self.name} was defeated!\r')
         for item in self.items:
             aged = library.agedItem[item]
             if aged != None:
-                print(f"You got the {self.name}'s {aged}! ({library.itemDescriptions[aged]})")
+                print(f"You got the {self.name}'s {aged}! ({library.itemDescriptions[aged]})\r")
                 player.items.append(aged)
                 time.sleep(3)
         enemies.remove(self)
@@ -416,7 +421,7 @@ class Enemy():
         
         self.health -= damageTaken
         time.sleep(1)
-        print(f'The {self.name} {message} took {damageTaken} damage')
+        print(f'The {self.name} {message} took {damageTaken} damage\r')
         if self.health <= 0:
             if 1 <= self.floor <= 9:
                 self.die()
@@ -424,7 +429,7 @@ class Enemy():
             self.splitting = False
             self.deck.remove("Split")
             time.sleep(1)
-            print("The slime is too weak to split!")
+            print("The slime is too weak to split!\r")
 
     def turn(self):
         self.defense = 0
@@ -441,10 +446,10 @@ class Enemy():
                 self.health//=2
                 enemies.append(Enemy("slime", self.health, True))
                 time.sleep(1)
-                print("The slime split in two!")
+                print("The slime split in two!\r")
             else:
                 time.sleep(1)
-                print("The slime is too weak to split!")
+                print("The slime is too weak to split!\r")
             self.splitting = False
         else:
             if self.deck == []:
@@ -455,7 +460,7 @@ class Enemy():
             action = library.actions[card]
             target = player
             time.sleep(1)
-            print(f'The {self.name} used "{card}"!')
+            print(f'The {self.name} used "{card}"!\r')
             exec(action) # exec or eval could work
             self.deck.remove(card)
             self.discard.append(card)
@@ -469,6 +474,28 @@ if __name__ =="__main__":
     def attackPlayer(damage:int):
         player.takeDamage(damage)
     player.enterRoom(1, 1)
+    # sprite = [
+    #     "                                         ",
+    #     "                 ░▒▒░                    ",
+    #     "            ░   ░  ░▒▒▒▒▒▒               ",
+    #     "   ░░     ░░░░░░▒▒▒▒▒░▒▒▒▓▒▒       ▒▒    ",
+    #     "   ░░░░   ░░░███▒░░░▓▒▒▒▒▒▒▒▒    ░░░     ",
+    #     "  ░ ░▒▒▒░ ░▒██▒█░░▒▒████▒▒▒▒▒▒  ▒▒▒▒▒    ",
+    #     "     ░▒▒▒ ░▒██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒      ",
+    #     "     ░▒▒▒░░░░▒▒█░█▒██▒▒█▒▒▒▒▒█▓▒██▒      ",
+    #     "      ░▒▒▒░▒▓▓▒█▓█ ██████▒█▒█████▒▒      ",
+    #     "      ░░▒▒ ░▒████▒▒▒▒████▒▒█▒▒▒▒▓██      ",
+    #     "       ▒░ ░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓█▓      ",
+    #     "        ░░▒▒▒▒▒▒▒▓██████▓███████▓▒▒▒▒▒   ",
+    #     "      ░░▒▒▒▒▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓██   ",
+    #     "   ░░▒▒▒▒▒▒▒▒▓████████▓██████████████▓▒▒ ",
+    #     "       ░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓█████",
+    #     "                   ▒     ▒    ▒▒▒▓  ▒█▓  "
+    # ]
+    # for line in sprite:
+    #     print(line+"\r")
+    # for sprite in library.slimeSprites:
+    #     print(sprite + "\r")
 
     
     
