@@ -405,15 +405,14 @@ class Enemy():
 
     def takeDamage(self, amount, cunning = False):
         damageTaken = amount 
+        message = ""
         if not cunning:
             damageTaken -= self.defense
             if damageTaken < 0:
                 damageTaken = 0
             damageBlocked = amount - damageTaken
             if self.defense > 0:
-                message = f"blocked {damageBlocked} damage and"
-            else:
-                message = ""
+                message = f"blocked {damageBlocked} damage and"                
         
         self.health -= damageTaken
         time.sleep(1)
